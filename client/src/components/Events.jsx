@@ -57,11 +57,11 @@ const Events = () => {
           {events.map((event, ind) => {
             return (
               <li key={ind}>
-                Id: {event.id}
+                <strong>Id:</strong> {event.id}
                 <br />
-                Name: {event.name}
+                <strong>Name:</strong> {event.name}
                 <br />
-                Date: {event.date}
+                <strong>Date:</strong> {event.date}
               </li>
             );
           })}

@@ -28,7 +28,9 @@ const Users = () => {
         {users.map((user, ind) => {
           return (
             <li key={ind}>
-              Name: {user.name}, Email: {user.email}
+              <strong>Name:</strong> {user.name}
+              <br />
+              <strong>Email:</strong> {user.email}
             </li>
           );
         })}
