@@ -62,7 +62,7 @@ const Users = () => {
               <label>Id</label>
               <br />
               <input
-                type="text"
+                type="number"
                 id="add-user-id"
                 value={id}
                 onChange={(e) => setId(e.target.value)}
