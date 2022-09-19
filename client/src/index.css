@@ -1,13 +1,30 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+fieldset {
+  border: none;
+  margin: 1rem 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+header {
+  /* For more about flexbox, see https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
+  display: flex;
+  align-items: center;
+}
+
+header img {
+  height: 64px;
+  margin-right: 1em;
+}
+
+main {
+  display: flex;
+  justify-content: space-between;
+}
+
+aside {
+  margin-left: 2em;
+}
+
+footer {
+  margin-top: 1rem;
+  font-size: small;
+  color: gray;
 }
