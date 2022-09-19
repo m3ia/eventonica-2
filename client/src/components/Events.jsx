@@ -21,8 +21,8 @@ const initialState = {
   id: "",
   name: "",
   date: null,
-  description: "",
-  category: "",
+  // description: "",
+  // category: "",
 };
 
 const reducer = (state, action) => {
@@ -42,12 +42,14 @@ const reducer = (state, action) => {
 
 const Events = () => {
   const [events, setEvents] = useState(mockEvents);
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setEvents((events) => [...events, state]);
   };
+
   return (
     <section className="event-management">
       <h2>Event Management</h2>
