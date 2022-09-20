@@ -28,6 +28,8 @@ const Users = () => {
         {users.map((user, ind) => {
           return (
             <li key={ind}>
+              <strong>ID:</strong> {user.id}
+              <br />
               <strong>Name:</strong> {user.name}
               <br />
               <strong>Email:</strong> {user.email}
