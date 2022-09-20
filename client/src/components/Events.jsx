@@ -25,6 +25,10 @@ const initialState = {
   // category: "",
 };
 
+function init(initialState) {
+  return {id: "", name: "", date: null};
+}
+
 const reducer = (state, action) => {
   console.log(action, "this is the action");
   switch (action.type) {
@@ -35,6 +39,8 @@ const reducer = (state, action) => {
       return {...state, name: action.payload};
     case "editDate":
       return {...state, date: action.payload};
+    case "reset":
+      return init(action.payload);
     default:
       return state;
   }
@@ -42,12 +48,12 @@ const reducer = (state, action) => {
 
 const Events = () => {
   const [events, setEvents] = useState(mockEvents);
-
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState, init);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setEvents((events) => [...events, state]);
+    dispatch({type: "reset", payload: initialState});
   };
 
   return (
@@ -77,6 +83,7 @@ const Events = () => {
               <input
                 type="number"
                 id="add-event-id"
+                value={state.id}
                 onChange={(e) =>
                   dispatch({type: "editId", payload: e.target.value})
                 }
@@ -88,6 +95,7 @@ const Events = () => {
                 type="text"
                 id="add-event-name"
                 placeholder="Virtual corgi meetup"
+                value={state.name}
                 onChange={(e) =>
                   dispatch({type: "editName", payload: e.target.value})
                 }
@@ -98,6 +106,7 @@ const Events = () => {
               <input
                 type="date"
                 id="add-event-date"
+                value={state.date}
                 onChange={(e) =>
                   dispatch({type: "editDate", payload: e.target.value})
                 }
