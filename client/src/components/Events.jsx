@@ -1,3 +1,4 @@
+import {useEffect} from "react";
 import {useState, useReducer} from "react";
 const mockEvents = [
   {
@@ -47,7 +48,13 @@ const reducer = (state, action) => {
 };
 
 const Events = () => {
-  const [events, setEvents] = useState(mockEvents);
+  // const [events, setEvents] = useState(mockEvents);
+  const [events, setEvents] = useState(() => {
+    const savedEvents = localStorage.getItem("events");
+    const initialEvents = JSON.parse(savedEvents);
+    return initialEvents || mockEvents;
+  });
+
   const [state, dispatch] = useReducer(reducer, initialState, init);
 
   const handleSubmit = (e) => {
@@ -55,6 +62,10 @@ const Events = () => {
     setEvents((events) => [...events, state]);
     dispatch({type: "reset", payload: initialState});
   };
+
+  useEffect(() => {
+    localStorage.setItem("events", JSON.stringify(events));
+  }, [events]);
 
   return (
     <section className="event-management">
