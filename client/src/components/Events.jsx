@@ -1,5 +1,6 @@
 import {useEffect} from "react";
 import {useState, useReducer} from "react";
+import DeleteEvent from "./DeleteEvent";
 import isFuture from "date-fns/isFuture";
 
 const mockEvents = [
@@ -23,13 +24,13 @@ const mockEvents = [
 const initialState = {
   id: "",
   name: "",
-  date: null,
+  date: "",
   // description: "",
   // category: "",
 };
 
 function init(initialState) {
-  return {id: "", name: "", date: null};
+  return {id: "", name: "", date: ""};
 }
 
 const reducer = (state, action) => {
@@ -138,6 +139,7 @@ const Events = () => {
           <input type="submit" onClick={handleSubmit} />
         </form>
       </div>
+      <DeleteEvent events={events} setEvents={setEvents} />
     </section>
   );
 };
