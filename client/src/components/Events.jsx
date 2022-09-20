@@ -29,7 +29,7 @@ const initialState = {
   // category: "",
 };
 
-function init(initialState) {
+function init() {
   return {id: "", name: "", date: ""};
 }
 
