@@ -1,5 +1,7 @@
 import {useEffect} from "react";
 import {useState, useReducer} from "react";
+import isFuture from "date-fns/isFuture";
+
 const mockEvents = [
   {
     id: 1,
@@ -48,7 +50,6 @@ const reducer = (state, action) => {
 };
 
 const Events = () => {
-  // const [events, setEvents] = useState(mockEvents);
   const [events, setEvents] = useState(() => {
     const savedEvents = localStorage.getItem("events");
     const initialEvents = JSON.parse(savedEvents);
@@ -59,8 +60,15 @@ const Events = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setEvents((events) => [...events, state]);
-    dispatch({type: "reset", payload: initialState});
+    if (!isFuture(new Date(state.date))) {
+      console.log("state date: ", state.date);
+      alert("Event date must be in the future");
+      dispatch({type: "reset", payload: initialState});
+      return "";
+    } else {
+      setEvents((events) => [...events, state]);
+      dispatch({type: "reset", payload: initialState});
+    }
   };
 
   useEffect(() => {
@@ -98,6 +106,7 @@ const Events = () => {
                 onChange={(e) =>
                   dispatch({type: "editId", payload: e.target.value})
                 }
+                required
               />
             </p>
             <p>
@@ -110,6 +119,7 @@ const Events = () => {
                 onChange={(e) =>
                   dispatch({type: "editName", payload: e.target.value})
                 }
+                required
               />
             </p>
             <p>
@@ -121,10 +131,10 @@ const Events = () => {
                 onChange={(e) =>
                   dispatch({type: "editDate", payload: e.target.value})
                 }
+                required
               />
             </p>
           </fieldset>
-          {/* Add more form fields here */}
           <input type="submit" onClick={handleSubmit} />
         </form>
       </div>
