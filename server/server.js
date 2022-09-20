@@ -20,4 +20,3 @@ const mockUsers = [
 app.get('/users', function (req, res, next) {
   res.json({ users: mockUsers });
 });
-
