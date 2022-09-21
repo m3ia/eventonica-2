@@ -62,12 +62,15 @@ app.post('/users', async (req, res) => {
 //Parameterized queries use placeholders instead of directly writing the
 //values into the statements. Parameterized queries increase security and performance.
 
-app.delete('/:id', async (req, res) => {
+app.delete('/users/:id', async (req, res) => {
   // : acts as a placeholder
   const userId = req.params.id;
   try {
     await db.none('DELETE FROM users WHERE id=$1', [userId]);
-    res.send({ status: 'success' });
+    const users = await db.any('SELECT * FROM users', [true]);
+    // res.send({ status: 'success' });
+    // res.redirect('http://localhost:8080/users');
+    res.send(users);
   } catch (e) {
     return res.status(400).json({ e });
   }
