@@ -1,8 +1,13 @@
 import express from 'express';
 import cors from 'cors';
+import pgPromise from 'pg-promise';
 
 const app = express();
 const PORT = 8080;
+
+// pgPromise
+const pgp = pgPromise({});
+const db = pgp('postgres://localhost:5432/eventonica');
 
 // Cors middleware
 app.use(cors());
@@ -17,8 +22,18 @@ const mockUsers = [
   { name: "Dory", email: "dory@gmail.com", id: "3" }
 ]
 
-app.get('/users', function (req, res, next) {
-  res.json({ users: mockUsers });
+// app.get('/users', function (req, res, next) {
+//   res.json({ users: mockUsers });
+// });
+
+app.get('/users', async function (req, res, next) {
+
+  try {
+    const users = await db.any('SELECT * FROM users', [true]);
+    res.send(users);
+  } catch (e) {
+    return res.status(400).json({ e });
+  }
 });
 
 /* Add users listing. */
