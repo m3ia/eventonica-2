@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import pgPromise from 'pg-promise';
 
@@ -11,6 +12,7 @@ const db = pgp('postgres://localhost:5432/eventonica');
 
 // Cors middleware
 app.use(cors());
+app.use(bodyParser.json());
 app.listen(PORT, () => console.log(`Hola this server is running on port ${PORT}`));
 
 app.get('/', (req, res) => res.json('Hello index'));
@@ -37,18 +39,18 @@ app.get('/users', async function (req, res, next) {
 });
 
 /* Add users listing. */
-app.post('/', async (req, res) => {
+app.post('/users', async (req, res) => {
+  console.log('reqbody: ', req.body)
   const user = {
     name: req.body.name,
     email: req.body.email
   };
-  console.log(user);
   try {
     const createdUser = await db.one(
       'INSERT INTO users(name, email) VALUES($1, $2) RETURNING *',
       [user.name, user.email]
     );
-    console.log(createdUser);
+    console.log('createdUser: ', createdUser);
     res.send(createdUser);
   } catch (e) {
     return res.status(400).json({ e });
