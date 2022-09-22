@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import DeleteUser from "./DeleteUser";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -7,19 +6,45 @@ const Users = () => {
   const [email, setEmail] = useState("");
   const [id, setId] = useState("");
 
-  const handleSubmit = (e) => {
+  // Add new user
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newUser = {id: id, name: name, email: email};
-    setUsers([...users, newUser]);
+    const rawResponse = await fetch("http://localhost:8080/users", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    });
+    const content = await rawResponse.json();
+
+    setUsers([...users, content]);
     setName("");
     setEmail("");
     setId("");
   };
 
+  // Delete a user
+  const deleteUser = async (id) => {
+    const rawResponse = await fetch(`http://localhost:8080/users/${id}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(users),
+    });
+    const content = await rawResponse.json();
+    setUsers(content);
+  };
+
+  // Fetch users from the first render
   const getUsers = () => {
     fetch("http://localhost:8080/users")
       .then((res) => res.json())
-      .then((res) => setUsers(res.users));
+      .then((res) => setUsers(res));
   };
   useEffect(() => getUsers(), []);
 
@@ -36,6 +61,14 @@ const Users = () => {
               <strong>Name:</strong> {user.name}
               <br />
               <strong>Email:</strong> {user.email}
+              <br />
+              <button>
+                <span
+                  className="material-symbols-outlined"
+                  onClick={() => deleteUser(user.id)}>
+                  delete
+                </span>
+              </button>
             </li>
           );
         })}
@@ -43,7 +76,7 @@ const Users = () => {
 
       <div>
         <h3>Add User</h3>
-        <form id="add-user" action="#">
+        <form id="add-user" action="#" onSubmit={handleSubmit}>
           <fieldset>
             <p>
               <label>Name</label>
@@ -65,24 +98,9 @@ const Users = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </p>
-            <p>
-              <label>Id</label>
-              <br />
-              <input
-                type="number"
-                id="add-user-id"
-                value={id}
-                onChange={(e) => setId(e.target.value)}
-              />
-            </p>
           </fieldset>
-          <input type="submit" value="Add" onClick={handleSubmit} />
+          <input type="submit" value="Add" />
         </form>
-      </div>
-
-      <div>
-        <h3>Delete User</h3>
-        <DeleteUser users={users} setUsers={setUsers} />
       </div>
     </section>
   );

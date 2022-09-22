@@ -62,7 +62,6 @@ const Events = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isFuture(new Date(state.date))) {
-      console.log("state date: ", state.date);
       alert("Event date must be in the future");
       dispatch({type: "reset", payload: initialState});
       return "";
