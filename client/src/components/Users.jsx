@@ -80,7 +80,13 @@ const Users = () => {
                     onChange={(e) => console.log(e.target.value)}
                   />
                   <br />
-                  <input type="submit" value="Update" />
+                  <button
+                    onClick={() =>
+                      setEditArr((arr) => arr.filter((i) => i !== user.id))
+                    }>
+                    cancel
+                  </button>
+                  <input type="submit" value="update" />
                 </form>
               ) : (
                 <>
