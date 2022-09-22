@@ -4,6 +4,7 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [editArr, setEditArr] = useState([]);
 
   // Add new user
   const handleSubmit = async (e) => {
@@ -38,6 +39,11 @@ const Users = () => {
     setUsers(content);
   };
 
+  // Edit users
+  const editUser = (userId) => {
+    setEditArr((arr) => [...arr, userId]);
+  };
+
   // Fetch users from the first render
   const getUsers = () => {
     fetch("http://localhost:8080/users")
@@ -54,19 +60,52 @@ const Users = () => {
         {users.map((user, ind) => {
           return (
             <li key={ind}>
-              <strong>ID:</strong> {user.id}
-              <br />
-              <strong>Name:</strong> {user.name}
-              <br />
-              <strong>Email:</strong> {user.email}
-              <br />
-              <button>
-                <span
-                  className="material-symbols-outlined"
-                  onClick={() => deleteUser(user.id)}>
-                  delete
-                </span>
-              </button>
+              {editArr.includes(user.id) ? (
+                <form id="edit-user" action="#">
+                  <label>Name</label>
+                  <input
+                    type="text"
+                    id="edit-user-name"
+                    value={name}
+                    placeholder={user.name}
+                    onChange={(e) => console.log(e.target.value)}
+                  />
+                  <br />
+                  <label>Email</label>
+                  <input
+                    type="text"
+                    id="edit-user-email"
+                    value={email}
+                    placeholder={user.email}
+                    onChange={(e) => console.log(e.target.value)}
+                  />
+                  <br />
+                  <input type="submit" value="Update" />
+                </form>
+              ) : (
+                <>
+                  <strong>ID:</strong> {user.id}
+                  <br />
+                  <strong>Name:</strong> {user.name}
+                  <br />
+                  <strong>Email:</strong> {user.email}
+                  <br />
+                  <button>
+                    <span
+                      className="material-icons edit-btn"
+                      onClick={() => editUser(user.id)}>
+                      edit
+                    </span>
+                  </button>
+                  <button>
+                    <span
+                      className="material-symbols-outlined delete-btn"
+                      onClick={() => deleteUser(user.id)}>
+                      delete
+                    </span>
+                  </button>
+                </>
+              )}
             </li>
           );
         })}
