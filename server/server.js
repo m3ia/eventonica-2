@@ -68,8 +68,6 @@ app.delete('/users/:id', async (req, res) => {
   try {
     await db.none('DELETE FROM users WHERE id=$1', [userId]);
     const users = await db.any('SELECT * FROM users', [true]);
-    // res.send({ status: 'success' });
-    // res.redirect('http://localhost:8080/users');
     res.send(users);
   } catch (e) {
     return res.status(400).json({ e });

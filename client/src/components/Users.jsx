@@ -4,12 +4,11 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [id, setId] = useState("");
 
   // Add new user
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newUser = {id: id, name: name, email: email};
+    const newUser = {name: name, email: email};
     const rawResponse = await fetch("http://localhost:8080/users", {
       method: "POST",
       headers: {
@@ -23,7 +22,6 @@ const Users = () => {
     setUsers([...users, content]);
     setName("");
     setEmail("");
-    setId("");
   };
 
   // Delete a user
