@@ -12,17 +12,18 @@ function App() {
         <h1>Eventonica</h1>
       </header>
 
-      <main>
-        <div className="user-and-events">
+      <div className="main-div">
+        
+        <div className="users-div">
           <Users />
         </div>
 
-        <div>
+        <div className="events-div">
           <Events />
         </div>
 
-        <aside className="search-toolbar">
-          <div>
+        {/* <aside className="search-toolbar">
+          <div className="find-events">
             <h3>Find Events</h3>
             <form id="search" action="#">
               <fieldset>
@@ -37,10 +38,10 @@ function App() {
               <input type="submit" value="Search" />
             </form>
           </div>
-        </aside>
-      </main>
+        </aside> */}
+      </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

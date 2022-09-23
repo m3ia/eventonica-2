@@ -119,34 +119,7 @@ const Events = () => {
   return (
     <section className="event-management">
       <h2>Event Management</h2>
-      <div>
-        <h3>All Events</h3>
-        <ul id="events-list">
-          {events.map((event, ind) => {
-            return (
-              <li key={ind} className="cards">
-                <strong>Id:</strong> {event.id}
-                <br />
-                <strong>Name:</strong> {event.name}
-                <br />
-                <strong>Date:</strong> {event.date}
-                <br />
-                <strong>User Posted:</strong> {event.userPosted}
-                <br />
-                <div className="buttons">
-                  <button>
-                    <span
-                      className="material-symbols-outlined delete-btn"
-                      onClick={() => deleteEvent(event.id)}>
-                      delete
-                    </span>
-                  </button>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-
+      <div className="forms">
         <h3>Add Event</h3>
         <form id="add-event" action="#">
           <fieldset>
@@ -190,6 +163,34 @@ const Events = () => {
           </fieldset>
           <input type="submit" onClick={handleSubmit} />
         </form>
+      </div>
+      <div className="lists">
+        <h3>All Events</h3>
+        <ul id="events-list">
+          {events.map((event, ind) => {
+            return (
+              <li key={ind} className="cards">
+                <strong>Id:</strong> {event.id}
+                <br />
+                <strong>Name:</strong> {event.name}
+                <br />
+                <strong>Date:</strong> {event.date}
+                <br />
+                <strong>User Posted:</strong> {event.userPosted}
+                <br />
+                <div className="buttons">
+                  <button>
+                    <span
+                      className="material-symbols-outlined delete-btn"
+                      onClick={() => deleteEvent(event.id)}>
+                      delete
+                    </span>
+                  </button>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

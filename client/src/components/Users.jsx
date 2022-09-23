@@ -72,80 +72,7 @@ const Users = () => {
   return (
     <section className="user-management">
       <h2>User Management</h2>
-
-      <ul id="users-list">
-        {users.map((user, ind) => {
-          return (
-            <li key={ind} className="cards">
-              {updatedUser !== null && updatedUser.id === user.id ? (
-                <form id="edit-user" action="#">
-                  <label>Name</label>
-                  <input
-                    type="text"
-                    id="edit-user-name"
-                    value={updatedUser.name}
-                    onChange={(e) =>
-                      setUpdatedUser((item) => ({
-                        ...item,
-                        name: e.target.value,
-                      }))
-                    }
-                  />
-                  <br />
-                  <label>Email</label>
-                  <input
-                    type="text"
-                    id="edit-user-email"
-                    value={updatedUser.email}
-                    onChange={(e) =>
-                      setUpdatedUser((item) => ({
-                        ...item,
-                        email: e.target.value,
-                      }))
-                    }
-                  />
-                  <br />
-                  <div className="buttons">
-                    <button onClick={() => setUpdatedUser(null)}>cancel</button>
-                    <input
-                      type="submit"
-                      value="update"
-                      onClick={(e) => editUser(e, user.id)}
-                    />
-                  </div>
-                </form>
-              ) : (
-                <>
-                  <strong>ID:</strong> {user.id}
-                  <br />
-                  <strong>Name:</strong> {user.name}
-                  <br />
-                  <strong>Email:</strong> {user.email}
-                  <br />
-                  <div className="buttons">
-                    <button>
-                      <span
-                        className="material-icons edit-btn"
-                        onClick={() => clickEdit(user)}>
-                        edit
-                      </span>
-                    </button>
-                    <button>
-                      <span
-                        className="material-symbols-outlined delete-btn"
-                        onClick={() => deleteUser(user.id)}>
-                        delete
-                      </span>
-                    </button>
-                  </div>
-                </>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-
-      <div>
+      <div className="forms">
         <h3>Add User</h3>
         <form id="add-user" action="#" onSubmit={handleSubmit}>
           <fieldset>
@@ -172,6 +99,89 @@ const Users = () => {
           </fieldset>
           <input type="submit" value="Add" />
         </form>
+      </div>
+      <div className="lists">
+        <ul id="users-list">
+          {users.map((user, ind) => {
+            return (
+              <div className="card-div">
+                <li key={ind} className="cards">
+                  {updatedUser !== null && updatedUser.id === user.id ? (
+                    <form id="edit-user" action="#">
+                      <div className="card-info">
+                        <label>Name</label>
+                        <input
+                          type="text"
+                          id="edit-user-name"
+                          value={updatedUser.name}
+                          onChange={(e) =>
+                            setUpdatedUser((item) => ({
+                              ...item,
+                              name: e.target.value,
+                            }))
+                          }
+                        />
+                        <br />
+                        <label>Email</label>
+                        <input
+                          type="text"
+                          id="edit-user-email"
+                          value={updatedUser.email}
+                          onChange={(e) =>
+                            setUpdatedUser((item) => ({
+                              ...item,
+                              email: e.target.value,
+                            }))
+                          }
+                        />
+                        <br />
+                      </div>
+                      <div className="buttons">
+                        <button onClick={() => setUpdatedUser(null)}>
+                          cancel
+                        </button>
+                        <input
+                          type="submit"
+                          value="update"
+                          onClick={(e) => editUser(e, user.id)}
+                        />
+                      </div>
+                    </form>
+                  ) : (
+                    <>
+                      <div className="card-div">
+                        <div className="card-info">
+                          <strong>ID:</strong> {user.id}
+                          <br />
+                          <strong>Name:</strong> {user.name}
+                          <br />
+                          <strong>Email:</strong> {user.email}
+                          <br />
+                        </div>
+                        <div className="buttons">
+                          <button>
+                            <span
+                              className="material-icons edit-btn"
+                              onClick={() => clickEdit(user)}>
+                              edit
+                            </span>
+                          </button>
+                          <button>
+                            <span
+                              className="material-symbols-outlined delete-btn"
+                              onClick={() => deleteUser(user.id)}>
+                              delete
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </li>
+              </div>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );
