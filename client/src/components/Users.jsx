@@ -4,7 +4,7 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [editArr, setEditArr] = useState([]);
+  const [updatedUser, setUpdatedUser] = useState(null);
 
   // Add new user
   const handleSubmit = async (e) => {
@@ -40,8 +40,25 @@ const Users = () => {
   };
 
   // Edit users
-  const editUser = (userId) => {
-    setEditArr((arr) => [...arr, userId]);
+  const clickEdit = (user) => {
+    setUpdatedUser({...user});
+  };
+
+  const editUser = async (e, id) => {
+    e.preventDefault();
+
+    const rawResponse = await fetch(`http://localhost:8080/users/${id}`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedUser),
+    });
+    const content = await rawResponse.json();
+
+    setUsers(content);
+    setUpdatedUser(null);
   };
 
   // Fetch users from the first render
@@ -51,6 +68,7 @@ const Users = () => {
       .then((res) => setUsers(res));
   };
   useEffect(() => getUsers(), []);
+  console.log(updatedUser);
 
   return (
     <section className="user-management">
@@ -60,33 +78,40 @@ const Users = () => {
         {users.map((user, ind) => {
           return (
             <li key={ind}>
-              {editArr.includes(user.id) ? (
+              {updatedUser !== null && updatedUser.id === user.id ? (
                 <form id="edit-user" action="#">
                   <label>Name</label>
                   <input
                     type="text"
                     id="edit-user-name"
-                    value={name}
-                    placeholder={user.name}
-                    onChange={(e) => console.log(e.target.value)}
+                    value={updatedUser.name}
+                    onChange={(e) =>
+                      setUpdatedUser((item) => ({
+                        ...item,
+                        name: e.target.value,
+                      }))
+                    }
                   />
                   <br />
                   <label>Email</label>
                   <input
                     type="text"
                     id="edit-user-email"
-                    value={email}
-                    placeholder={user.email}
-                    onChange={(e) => console.log(e.target.value)}
+                    value={updatedUser.email}
+                    onChange={(e) =>
+                      setUpdatedUser((item) => ({
+                        ...item,
+                        email: e.target.value,
+                      }))
+                    }
                   />
                   <br />
-                  <button
-                    onClick={() =>
-                      setEditArr((arr) => arr.filter((i) => i !== user.id))
-                    }>
-                    cancel
-                  </button>
-                  <input type="submit" value="update" />
+                  <button onClick={() => setUpdatedUser(null)}>cancel</button>
+                  <input
+                    type="submit"
+                    value="update"
+                    onClick={(e) => editUser(e, user.id)}
+                  />
                 </form>
               ) : (
                 <>
@@ -99,7 +124,7 @@ const Users = () => {
                   <button>
                     <span
                       className="material-icons edit-btn"
-                      onClick={() => editUser(user.id)}>
+                      onClick={() => clickEdit(user)}>
                       edit
                     </span>
                   </button>

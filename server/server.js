@@ -31,7 +31,7 @@ const mockUsers = [
 app.get('/users', async function (req, res, next) {
 
   try {
-    const users = await db.any('SELECT * FROM users', [true]);
+    const users = await db.any('SELECT * FROM users ORDER BY id', [true]);
     res.send(users);
   } catch (e) {
     return res.status(400).json({ e });
@@ -67,7 +67,27 @@ app.delete('/users/:id', async (req, res) => {
   const userId = req.params.id;
   try {
     await db.none('DELETE FROM users WHERE id=$1', [userId]);
-    const users = await db.any('SELECT * FROM users', [true]);
+    const users = await db.any('SELECT * FROM users ORDER BY id', [true]);
+    res.send(users);
+  } catch (e) {
+    return res.status(400).json({ e });
+  }
+});
+
+// Edit Users
+app.patch('/users/:id', async (req, res) => {
+  const user = {
+    id: req.body.id,
+    name: req.body.name,
+    email: req.body.email
+  };
+  try {
+    const createdUser = await db.one(
+      `UPDATE users SET name = $1, email = $2 WHERE id=$3 RETURNING *`,
+      [user.name, user.email, user.id]
+    );
+    console.log('createdUser: ', createdUser);
+    const users = await db.any('SELECT * FROM users ORDER BY id', [true]);
     res.send(users);
   } catch (e) {
     return res.status(400).json({ e });
