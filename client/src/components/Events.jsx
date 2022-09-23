@@ -1,6 +1,5 @@
 import {useEffect} from "react";
 import {useState, useReducer} from "react";
-import DeleteEvent from "./DeleteEvent";
 import isFuture from "date-fns/isFuture";
 import {format} from "date-fns";
 
@@ -70,6 +69,31 @@ const Events = () => {
     }
   };
 
+  // Delete a user
+  const deleteEvent = async (id) => {
+    const rawResponse = await fetch(`http://localhost:8080/events/${id}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(events),
+    });
+    const content = await rawResponse.json();
+    console.log("content: ", content);
+    setEvents((events) => [
+      ...content.map((event) => {
+        return {
+          id: event.event_id,
+          name: event.name,
+          date: format(new Date(event.event_date), "MM/dd/yyyy"),
+          userPosted: event.user_posted,
+        };
+      }),
+    ]);
+  };
+
+  // Fetch events
   const getEvents = () => {
     fetch("http://localhost:8080/events")
       .then((res) => res.json())
@@ -108,6 +132,14 @@ const Events = () => {
                 <strong>Date:</strong> {event.date}
                 <br />
                 <strong>User Posted:</strong> {event.userPosted}
+                <br />
+                <button>
+                  <span
+                    className="material-symbols-outlined delete-btn"
+                    onClick={() => deleteEvent(event.id)}>
+                    delete
+                  </span>
+                </button>
               </li>
             );
           })}
@@ -157,7 +189,6 @@ const Events = () => {
           <input type="submit" onClick={handleSubmit} />
         </form>
       </div>
-      <DeleteEvent events={events} setEvents={setEvents} />
     </section>
   );
 };

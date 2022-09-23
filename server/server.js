@@ -113,3 +113,16 @@ app.post('/events', async (req, res) => {
     return res.status(400).json({ e });
   }
 });
+
+/* Delete event listing. */
+app.delete('/events/:id', async (req, res) => {
+  // : acts as a placeholder
+  const eventId = req.params.id;
+  try {
+    await db.none('DELETE FROM events WHERE event_id=$1', [eventId]);
+    const events = await db.any('SELECT * FROM events ORDER BY event_id', [true]);
+    res.send(events);
+  } catch (e) {
+    return res.status(400).json({ e });
+  }
+});
