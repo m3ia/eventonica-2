@@ -17,6 +17,7 @@ app.listen(PORT, () => console.log(`Hola this server is running on port ${PORT}`
 
 app.get('/', (req, res) => res.json('Hello index'));
 
+// Get Users
 app.get('/users', async function (req, res, next) {
 
   try {
@@ -78,6 +79,17 @@ app.patch('/users/:id', async (req, res) => {
     console.log('createdUser: ', createdUser);
     const users = await db.any('SELECT * FROM users ORDER BY id', [true]);
     res.send(users);
+  } catch (e) {
+    return res.status(400).json({ e });
+  }
+});
+
+// Get Events
+app.get('/events', async function (req, res, next) {
+
+  try {
+    const events = await db.any('SELECT * FROM events ORDER BY event_id', [true]);
+    res.send(events);
   } catch (e) {
     return res.status(400).json({ e });
   }

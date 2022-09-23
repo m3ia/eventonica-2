@@ -51,12 +51,7 @@ const reducer = (state, action) => {
 };
 
 const Events = () => {
-  const [events, setEvents] = useState(() => {
-    const savedEvents = localStorage.getItem("events");
-    const initialEvents = JSON.parse(savedEvents);
-    return initialEvents || mockEvents;
-  });
-
+  const [events, setEvents] = useState([]);
   const [state, dispatch] = useReducer(reducer, initialState, init);
 
   const handleSubmit = (e) => {
@@ -70,7 +65,7 @@ const Events = () => {
       dispatch({type: "reset", payload: initialState});
     }
   };
-
+  // Fetch events from first render
   useEffect(() => {
     localStorage.setItem("events", JSON.stringify(events));
   }, [events]);
