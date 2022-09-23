@@ -170,14 +170,16 @@ const Events = () => {
           {events.map((event, ind) => {
             return (
               <li key={ind} className="cards">
-                <strong>Id:</strong> {event.id}
-                <br />
-                <strong>Name:</strong> {event.name}
-                <br />
-                <strong>Date:</strong> {event.date}
-                <br />
-                <strong>User Posted:</strong> {event.userPosted}
-                <br />
+                <div className="card-info">
+                  <strong>Id:</strong> {event.id}
+                  <br />
+                  <strong>Name:</strong> {event.name}
+                  <br />
+                  <strong>Date:</strong> {event.date}
+                  <br />
+                  <strong>User Posted:</strong> {event.userPosted}
+                  <br />
+                </div>
                 <div className="buttons">
                   <button>
                     <span

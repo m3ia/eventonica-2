@@ -76,6 +76,10 @@ p, li {
   list-style-type: none;
   border-radius: 25px;
   width: 470px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .buttons {
@@ -98,9 +102,8 @@ p, li {
 .card-div {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-
 }
 
 form {
