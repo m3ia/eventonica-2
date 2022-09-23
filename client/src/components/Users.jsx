@@ -101,6 +101,7 @@ const Users = () => {
         </form>
       </div>
       <div className="lists">
+        <h3>All Users</h3>
         <ul id="users-list">
           {users.map((user, ind) => {
             return (
