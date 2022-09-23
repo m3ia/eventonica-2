@@ -12,20 +12,17 @@ const initialState = {
 };
 
 function init() {
-  return {id: "", name: "", date: "", userId: ""};
+  return {id: "", name: "", date: "", userPosted: ""};
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "editId":
-      console.log("Logged if the editName action is being dispatched");
-      return {...state, id: action.payload};
     case "editName":
       return {...state, name: action.payload};
     case "editDate":
       return {...state, date: action.payload};
-    case "editUserId":
-      return {...state, user_id: action.payload};
+    case "editUserPosted":
+      return {...state, userPosted: action.payload};
     case "reset":
       return init(action.payload);
     default:
@@ -86,7 +83,7 @@ const Events = () => {
                 <br />
                 <strong>Date:</strong> {event.date}
                 <br />
-                <strong>User Posted:</strong> {event.userId}
+                <strong>User Posted:</strong> {event.userPosted}
               </li>
             );
           })}
@@ -95,18 +92,6 @@ const Events = () => {
         <h3>Add Event</h3>
         <form id="add-event" action="#">
           <fieldset>
-            <p>
-              <label>ID</label>
-              <input
-                type="number"
-                id="add-event-id"
-                value={state.id}
-                onChange={(e) =>
-                  dispatch({type: "editId", payload: e.target.value})
-                }
-                required
-              />
-            </p>
             <p>
               <label>Name</label>
               <input
@@ -137,9 +122,9 @@ const Events = () => {
               <input
                 type="text"
                 id="add-user-posted"
-                value={state.userId}
+                value={state.userPosted}
                 onChange={(e) =>
-                  dispatch({type: "editUserId", payload: e.target.value})
+                  dispatch({type: "editUserPosted", payload: e.target.value})
                 }
                 required
               />
