@@ -3,38 +3,18 @@ import {useState, useReducer} from "react";
 import DeleteEvent from "./DeleteEvent";
 import isFuture from "date-fns/isFuture";
 
-const mockEvents = [
-  {
-    id: 1,
-    name: "Usher Concert",
-    date: "01/01/2023",
-  },
-  {
-    id: 2,
-    name: "Circus",
-    date: "12/02/2022",
-  },
-  {
-    id: 3,
-    name: "Fright Fest",
-    date: "10/31/2022",
-  },
-];
-
 const initialState = {
   id: "",
   name: "",
   date: "",
-  // description: "",
-  // category: "",
+  userPosted: "",
 };
 
 function init() {
-  return {id: "", name: "", date: ""};
+  return {id: "", name: "", date: "", userId: ""};
 }
 
 const reducer = (state, action) => {
-  console.log(action, "this is the action");
   switch (action.type) {
     case "editId":
       console.log("Logged if the editName action is being dispatched");
@@ -43,6 +23,8 @@ const reducer = (state, action) => {
       return {...state, name: action.payload};
     case "editDate":
       return {...state, date: action.payload};
+    case "editUserId":
+      return {...state, user_id: action.payload};
     case "reset":
       return init(action.payload);
     default:
@@ -65,10 +47,28 @@ const Events = () => {
       dispatch({type: "reset", payload: initialState});
     }
   };
+
+  const getEvents = () => {
+    fetch("http://localhost:8080/events")
+      .then((res) => res.json())
+      .then((res) => {
+        setEvents((e) => [
+          ...e,
+          ...res.map((event) => {
+            return {
+              id: event.event_id,
+              name: event.name,
+              date: event.event_date,
+              userPosted: event.user_posted,
+            };
+          }),
+        ]);
+      });
+  };
   // Fetch events from first render
   useEffect(() => {
-    localStorage.setItem("events", JSON.stringify(events));
-  }, [events]);
+    getEvents();
+  }, []);
 
   return (
     <section className="event-management">
@@ -84,6 +84,8 @@ const Events = () => {
                 <strong>Name:</strong> {event.name}
                 <br />
                 <strong>Date:</strong> {event.date}
+                <br />
+                <strong>User Posted:</strong> {event.userId}
               </li>
             );
           })}
@@ -125,6 +127,18 @@ const Events = () => {
                 value={state.date}
                 onChange={(e) =>
                   dispatch({type: "editDate", payload: e.target.value})
+                }
+                required
+              />
+            </p>
+            <p>
+              <label>User ID</label>
+              <input
+                type="text"
+                id="add-user-posted"
+                value={state.userId}
+                onChange={(e) =>
+                  dispatch({type: "editUserId", payload: e.target.value})
                 }
                 required
               />

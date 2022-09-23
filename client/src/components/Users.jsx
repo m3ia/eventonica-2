@@ -68,7 +68,6 @@ const Users = () => {
       .then((res) => setUsers(res));
   };
   useEffect(() => getUsers(), []);
-  console.log(updatedUser);
 
   return (
     <section className="user-management">
