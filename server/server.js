@@ -94,3 +94,22 @@ app.get('/events', async function (req, res, next) {
     return res.status(400).json({ e });
   }
 });
+
+/* Add events listing. */
+app.post('/events', async (req, res) => {
+  const event = {
+    name: req.body.name,
+    date: req.body.date,
+    userPosted: req.body.userPosted
+  };
+  try {
+    const createdEvent = await db.one(
+      'INSERT INTO events (name, event_date, user_posted) VALUES($1, $2, $3) RETURNING *',
+      [event.name, event.date, event.userPosted]
+    );
+    console.log('createdEvent: ', createdEvent);
+    res.send(createdEvent);
+  } catch (e) {
+    return res.status(400).json({ e });
+  }
+});

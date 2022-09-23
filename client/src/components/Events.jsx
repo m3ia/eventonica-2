@@ -34,14 +34,38 @@ const Events = () => {
   const [events, setEvents] = useState([]);
   const [state, dispatch] = useReducer(reducer, initialState, init);
 
-  const handleSubmit = (e) => {
+  // Add new event
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isFuture(new Date(state.date))) {
       alert("Event date must be in the future");
       dispatch({type: "reset", payload: initialState});
       return "";
     } else {
-      setEvents((events) => [...events, state]);
+      const newEvent = {
+        name: state.name,
+        date: state.date,
+        userPosted: state.userPosted,
+      };
+      const rawResponse = await fetch("http://localhost:8080/events", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newEvent),
+      });
+      const content = await rawResponse.json();
+
+      setEvents((events) => [
+        ...events,
+        {
+          id: content.event_id,
+          name: content.name,
+          date: format(new Date(content.event_date), "MM/dd/yyyy"),
+          userPosted: content.user_posted,
+        },
+      ]);
       dispatch({type: "reset", payload: initialState});
     }
   };
