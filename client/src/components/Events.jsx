@@ -124,7 +124,7 @@ const Events = () => {
         <ul id="events-list">
           {events.map((event, ind) => {
             return (
-              <li key={ind}>
+              <li key={ind} className="cards">
                 <strong>Id:</strong> {event.id}
                 <br />
                 <strong>Name:</strong> {event.name}
@@ -133,13 +133,15 @@ const Events = () => {
                 <br />
                 <strong>User Posted:</strong> {event.userPosted}
                 <br />
-                <button>
-                  <span
-                    className="material-symbols-outlined delete-btn"
-                    onClick={() => deleteEvent(event.id)}>
-                    delete
-                  </span>
-                </button>
+                <div className="buttons">
+                  <button>
+                    <span
+                      className="material-symbols-outlined delete-btn"
+                      onClick={() => deleteEvent(event.id)}>
+                      delete
+                    </span>
+                  </button>
+                </div>
               </li>
             );
           })}

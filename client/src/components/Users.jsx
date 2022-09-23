@@ -76,7 +76,7 @@ const Users = () => {
       <ul id="users-list">
         {users.map((user, ind) => {
           return (
-            <li key={ind}>
+            <li key={ind} className="cards">
               {updatedUser !== null && updatedUser.id === user.id ? (
                 <form id="edit-user" action="#">
                   <label>Name</label>
@@ -105,12 +105,14 @@ const Users = () => {
                     }
                   />
                   <br />
-                  <button onClick={() => setUpdatedUser(null)}>cancel</button>
-                  <input
-                    type="submit"
-                    value="update"
-                    onClick={(e) => editUser(e, user.id)}
-                  />
+                  <div className="buttons">
+                    <button onClick={() => setUpdatedUser(null)}>cancel</button>
+                    <input
+                      type="submit"
+                      value="update"
+                      onClick={(e) => editUser(e, user.id)}
+                    />
+                  </div>
                 </form>
               ) : (
                 <>
@@ -120,20 +122,22 @@ const Users = () => {
                   <br />
                   <strong>Email:</strong> {user.email}
                   <br />
-                  <button>
-                    <span
-                      className="material-icons edit-btn"
-                      onClick={() => clickEdit(user)}>
-                      edit
-                    </span>
-                  </button>
-                  <button>
-                    <span
-                      className="material-symbols-outlined delete-btn"
-                      onClick={() => deleteUser(user.id)}>
-                      delete
-                    </span>
-                  </button>
+                  <div className="buttons">
+                    <button>
+                      <span
+                        className="material-icons edit-btn"
+                        onClick={() => clickEdit(user)}>
+                        edit
+                      </span>
+                    </button>
+                    <button>
+                      <span
+                        className="material-symbols-outlined delete-btn"
+                        onClick={() => deleteUser(user.id)}>
+                        delete
+                      </span>
+                    </button>
+                  </div>
                 </>
               )}
             </li>

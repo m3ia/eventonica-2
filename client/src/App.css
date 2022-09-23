@@ -61,3 +61,15 @@ p, li {
     transform: rotate(360deg);
   }
 }
+
+.cards {
+  border: 2px solid black;
+  text-align: left;
+  padding: 8px;
+  margin: 8px;
+  list-style-type: none;
+}
+
+.buttons {
+  text-align: right;
+}
