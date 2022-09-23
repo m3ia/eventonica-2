@@ -2,6 +2,7 @@ import {useEffect} from "react";
 import {useState, useReducer} from "react";
 import DeleteEvent from "./DeleteEvent";
 import isFuture from "date-fns/isFuture";
+import {format} from "date-fns";
 
 const initialState = {
   id: "",
@@ -58,7 +59,7 @@ const Events = () => {
             return {
               id: event.event_id,
               name: event.name,
-              date: event.event_date,
+              date: format(new Date(event.event_date), "MM/dd/yyyy"),
               userPosted: event.user_posted,
             };
           }),
