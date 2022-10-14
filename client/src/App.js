@@ -1,6 +1,5 @@
 import calendar from "./calendar.png";
 import "./App.css";
-import Footer from './components/footer';
 import Users from './components/Users';
 import Events from './components/Events';
 
